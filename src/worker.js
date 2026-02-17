@@ -6,7 +6,7 @@
 // add multiple serviceaccounts as {}, {}, {}, random account will be selected by each time app is opened.
 
 const environment = 'production'; // This Variable Decides the environment of the app. 'production' or 'development' or 'local'
- 
+
 const serviceaccounts = [];
 const randomserviceaccount = serviceaccounts[Math.floor(Math.random() * serviceaccounts.length)]; // DO NOT TOUCH THIS
 const domains_for_dl = ['']; // add multiple cloudflare addresses to balance the load on download/stream servers, eg. ['https://testing.fetchgoogleapi.workers.dev', 'https://testing2.fetchgoogleapi2.workers.dev']
@@ -15,9 +15,9 @@ const blocked_region = ['']; // add regional codes seperated by comma, eg. ['IN'
 const blocked_asn = []; // add ASN numbers from http://www.bgplookingglass.com/list-of-autonomous-system-numbers, eg. [16509, 12345]
 const authConfig = {
   "siteName": "Google Drive Index", // Website name
-  "client_id": "", // Client id from Google Cloud Console
-  "client_secret": "", // Client Secret from Google Cloud Console
-  "refresh_token": "", // Authorize token
+  "client_id": typeof CLIENT_ID !== 'undefined' ? CLIENT_ID : "", // Set via Variables and Secrets in Cloudflare dashboard
+  "client_secret": typeof CLIENT_SECRET !== 'undefined' ? CLIENT_SECRET : "", // Set via Variables and Secrets in Cloudflare dashboard
+  "refresh_token": typeof REFRESH_TOKEN !== 'undefined' ? REFRESH_TOKEN : "", // Set via Variables and Secrets in Cloudflare dashboard
   "service_account": false, // true if you're using Service Account instead of user account
   "service_account_json": randomserviceaccount, // don't touch this one
   "files_list_page_size": 100,
@@ -41,35 +41,35 @@ const authConfig = {
   "ip_changed_action": false, // set to true if you want to logout user if IP changed
   "cors_domain": "*", // CORS domain for API requests, use * for all domains or specify your domain
   "users_list": [{
-      "username": "admin",
-      "password": "admin",
-    },
-    {
-      "username": "admin1",
-      "password": "admin1",
-    }
+    "username": "admin",
+    "password": "admin",
+  },
+  {
+    "username": "admin1",
+    "password": "admin1",
+  }
   ],
   "roots": [
     {
-      "id": "",
-      "name": "00-MUST-HAVE",
+      "id": typeof ROOT_ID !== 'undefined' ? ROOT_ID : "", // Set via Variables and Secrets in Cloudflare dashboard
+      "name": "Root",
       "protect_file_link": false
-  },
+    },
   ]
 };
 const crypto_base_key = "3225f86e99e205347b4310e437253bfd"; // Example 256 bit key used, generate your own.
 const hmac_base_key = "4d1fbf294186b82d74fff2494c04012364200263d6a36123db0bd08d6be1423c"; // Example 256 bit key used, generate your own.
 const encrypt_iv = new Uint8Array([247, 254, 106, 195, 32, 148, 131, 244, 222, 133, 26, 182, 20, 138, 215, 81]); // Example 128 bit IV used, generate your own.
 const uiConfig = {
-  "theme": "darkly", // switch between themes, default set to slate, select from https://gitlab.com/GoogleDriveIndex/Google-Drive-Index
-  "version": "2.3.7", // don't touch this one. get latest code using generator at https://bdi-generator.hashhackers.com
+  "theme": "slate", // switch between themes, default set to slate, select from https://gitlab.com/GoogleDriveIndex/Google-Drive-Index
+  "version": "main", // don't touch this one. get latest code using generator at https://bdi-generator.hashhackers.com
   // If you're using Image then set to true, If you want text then set it to false
   "logo_image": true, // true if you're using image link in next option.
   "logo_height": "", // only if logo_image is true
   "logo_width": "100px", // only if logo_image is true
-  "favicon": "https://cdn.jsdelivr.net/npm/@googledrive/index@2.2.3/images/favicon.ico",
+  "favicon": "https://cdn.jsdelivr.net/gl/orionwalter40/gdrive-index@2.2.3/images/favicon.ico",
   // if logo is true then link otherwise just text for name
-  "logo_link_name": "https://cdn.jsdelivr.net/npm/@googledrive/index@2.2.3/images/bhadoo-cloud-logo-white.svg",
+  "logo_link_name": "https://i.ibb.co.com/8njKvP54/restoration-image-20260216-132020.png",
   "login_image": "https://i.imgur.com/5fHELJr.png", // Login page logo image
   "fixed_header": true, // If you want the footer to be flexible or fixed.
   "header_padding": "80", // Value 80 for fixed header, Value 20 for flexible header. Required to be changed accordingly in some themes.
@@ -77,32 +77,32 @@ const uiConfig = {
   "nav_link_3": "Current Path", // change navigation link name
   "nav_link_4": "Contact", // change navigation link name
   "fixed_footer": false, // If you want the footer to be flexible or fixed.
-  "hide_footer": true, // hides the footer from site entirely.
-  "header_style_class": "navbar-dark bg-primary", // navbar-dark bg-primary || navbar-dark bg-dark || navbar-light bg-light
-  "footer_style_class": "bg-primary", // bg-primary || bg-dark || bg-light
-  "css_a_tag_color": "white", // Color Name or Hex Code eg. #ffffff
-  "css_p_tag_color": "white", // Color Name or Hex Code eg. #ffffff
-  "folder_text_color": "white", // Color Name or Hex Code eg. #ffffff
+  "hide_footer": false, // hides the footer from site entirely.
+  "header_style_class": "navbar-dark bg-dark", // navbar-dark bg-primary || navbar-dark bg-dark || navbar-light bg-light
+  "footer_style_class": "bg-dark", // bg-primary || bg-dark || bg-light
+  "css_a_tag_color": "#58a6ff", // Color Name or Hex Code eg. #ffffff
+  "css_p_tag_color": "#c9d1d9", // Color Name or Hex Code eg. #ffffff
+  "folder_text_color": "#c9d1d9", // Color Name or Hex Code eg. #ffffff
   "loading_spinner_class": "text-light", // https://getbootstrap.com/docs/5.0/components/spinners/#colors
-  "search_button_class": "btn btn-danger", // https://getbootstrap.com/docs/5.0/components/buttons/#examples
-  "path_nav_alert_class": "alert alert-primary", // https://getbootstrap.com/docs/4.0/components/alerts/#examples
-  "file_view_alert_class": "alert alert-danger", // https://getbootstrap.com/docs/4.0/components/alerts/#examples
-  "file_count_alert_class": "alert alert-secondary", // https://getbootstrap.com/docs/4.0/components/alerts/#examples
+  "search_button_class": "btn btn-light", // https://getbootstrap.com/docs/5.0/components/buttons/#examples
+  "path_nav_alert_class": "alert alert-dark", // https://getbootstrap.com/docs/4.0/components/alerts/#examples
+  "file_view_alert_class": "alert alert-secondary", // https://getbootstrap.com/docs/4.0/components/alerts/#examples
+  "file_count_alert_class": "alert alert-dark", // https://getbootstrap.com/docs/4.0/components/alerts/#examples
   "contact_link": "https://telegram.dog/Telegram", // Link to Contact Button on Menu
-  "copyright_year": "2050", // year of copyright, can be anything like 2015 - 2020 or just 2020
+  "copyright_year": "2026", // year of copyright, can be anything like 2015 - 2020 or just 2020
   "company_name": "The Bay Index", // Name next to copyright
   "company_link": "https://telegram.dog/Telegram", // link of copyright name
   "credit": true, // Set this to true to give us credit
   "display_size": true, // Set this to false to hide display file size
-  "display_time": false, // Set this to false to hide display modified time for folder and files
+  "display_time": true, // Set this to false to hide display modified time for folder and files
   "display_download": true, // Set this to false to hide download icon for folder and files on main index
   "disable_player": false, // Set this to true to hide audio and video players
   "disable_video_download": false, // Remove Download, Copy Button on Videos
   "allow_selecting_files": true, // Disable Selecting Files to Download in Bulk
   "second_domain_for_dl": false, // If you want to display other URL for Downloading to protect your main domain.
-  "poster": "https://cdn.jsdelivr.net/npm/@googledrive/index@2.2.3/images/poster.jpg", // Video poster URL or see Readme to how to load from Drive
-  "audioposter": "https://cdn.jsdelivr.net/npm/@googledrive/index@2.2.3/images/music.jpg", // Video poster URL or see Readme to how to load from Drive
-  "jsdelivr_cdn_src": "https://cdn.jsdelivr.net/npm/@googledrive/index", // If Project is Forked, then enter your GitHub repo
+  "poster": "https://cdn.jsdelivr.net/gl/orionwalter40/gdrive-index@2.2.3/images/poster.jpg", // Video poster URL or see Readme to how to load from Drive
+  "audioposter": "https://cdn.jsdelivr.net/gl/orionwalter40/gdrive-index@2.2.3/images/music.jpg", // Video poster URL or see Readme to how to load from Drive
+  "jsdelivr_cdn_src": "https://cdn.jsdelivr.net/gl/orionwalter40/gdrive-index", // If Project is Forked, then enter your GitHub repo
   "render_head_md": true, // Render Head.md
   "render_readme_md": true, // Render Readme.md
   "unauthorized_owner_link": "https://telegram.dog/Telegram", // Unauthorized Error Page Link to Owner
@@ -113,9 +113,9 @@ const uiConfig = {
 
 const player_config = {
   "player": "videojs", // videojs || plyr || dplayer || jwplayer
-  "videojs_version": "8.3.0", // Change videojs version in future when needed.
-  "plyr_io_version": "3.7.8",
-  "jwplayer_version": "8.16.2"
+  "videojs_version": "8.23.4", // Change videojs version in future when needed.
+  "plyr_io_version": "3.8.4",
+  "jwplayer_version": "8.40.6"
 };
 
 // DON'T TOUCH BELOW THIS UNLESS YOU KNOW WHAT YOU'RE DOING
@@ -139,8 +139,58 @@ function html(current_drive_order = 0, model = {}) {
   <title>${authConfig.siteName}</title>
   <meta name="robots" content="noindex" />
   <link rel="icon" href="${uiConfig.favicon}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-  .navbar-brand {font-family: Cinemathic Visualation;font-size: 30px;}.footer-text {font-family: Cinemathic Visualation;font-size: 40px;}a {color:white;}p {color:white;} .logo_new {font-family: Cinemathic Visualation;font-size: 50px;color:white;} .loading {position: fixed;z-index: 999;height: 2em;width: 2em;overflow: show;margin: auto;top: 0;left: 0;bottom: 0;right: 0;}.loading:before {content: '';display: block;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: radial-gradient(rgba(20, 20, 20,.8), rgba(0, 0, 0, .8));background: -webkit-radial-gradient(rgba(20, 20, 20,.8), rgba(0, 0, 0,.8));}.loading:not(:required) {font: 0/0 a;color: transparent;text-shadow: none;background-color: transparent;border: 0;}.loading:not(:required):after {content: '';display: block;font-size: 10px;width: 1em;height: 1em;margin-top: -0.5em;-webkit-animation: spinner 150ms infinite linear;-moz-animation: spinner 150ms infinite linear;-ms-animation: spinner 150ms infinite linear;-o-animation: spinner 150ms infinite linear;animation: spinner 150ms infinite linear;border-radius: 0.5em;-webkit-box-shadow: rgba(255,255,255, 0.75) 1.5em 0 0 0, rgba(255,255,255, 0.75) 1.1em 1.1em 0 0, rgba(255,255,255, 0.75) 0 1.5em 0 0, rgba(255,255,255, 0.75) -1.1em 1.1em 0 0, rgba(255,255,255, 0.75) -1.5em 0 0 0, rgba(255,255,255, 0.75) -1.1em -1.1em 0 0, rgba(255,255,255, 0.75) 0 -1.5em 0 0, rgba(255,255,255, 0.75) 1.1em -1.1em 0 0;box-shadow: rgba(255,255,255, 0.75) 1.5em 0 0 0, rgba(255,255,255, 0.75) 1.1em 1.1em 0 0, rgba(255,255,255, 0.75) 0 1.5em 0 0, rgba(255,255,255, 0.75) -1.1em 1.1em 0 0, rgba(255,255,255, 0.75) -1.5em 0 0 0, rgba(255,255,255, 0.75) -1.1em -1.1em 0 0, rgba(255,255,255, 0.75) 0 -1.5em 0 0, rgba(255,255,255, 0.75) 1.1em -1.1em 0 0;}@-webkit-keyframes spinner {0% {-webkit-transform: rotate(0deg);-moz-transform: rotate(0deg);-ms-transform: rotate(0deg);-o-transform: rotate(0deg);transform: rotate(0deg);}100% {-webkit-transform: rotate(360deg);-moz-transform: rotate(360deg);-ms-transform: rotate(360deg);-o-transform: rotate(360deg);transform: rotate(360deg);}}@-moz-keyframes spinner {0% {-webkit-transform: rotate(0deg);-moz-transform: rotate(0deg);-ms-transform: rotate(0deg);-o-transform: rotate(0deg);transform: rotate(0deg);}100% {-webkit-transform: rotate(360deg);-moz-transform: rotate(360deg);-ms-transform: rotate(360deg);-o-transform: rotate(360deg);transform: rotate(360deg);}}@-o-keyframes spinner {0% {-webkit-transform: rotate(0deg);-moz-transform: rotate(0deg);-ms-transform: rotate(0deg);-o-transform: rotate(0deg);transform: rotate(0deg);}100% {-webkit-transform: rotate(360deg);-moz-transform: rotate(360deg);-ms-transform: rotate(360deg);-o-transform: rotate(360deg);transform: rotate(360deg);}}@keyframes spinner {0% {-webkit-transform: rotate(0deg);-moz-transform: rotate(0deg);-ms-transform: rotate(0deg);-o-transform: rotate(0deg);transform: rotate(0deg);}100% {-webkit-transform: rotate(360deg);-moz-transform: rotate(360deg);-ms-transform: rotate(360deg);-o-transform: rotate(360deg);transform: rotate(360deg);}}	  </style>
+  *{font-family:'Inter',sans-serif;}
+  body{background:#0d1117;min-height:100vh;}
+  .navbar{backdrop-filter:blur(12px);background:rgba(22,27,34,0.95)!important;border-bottom:1px solid rgba(48,54,61,0.8);box-shadow:0 1px 3px rgba(0,0,0,0.3);}
+  .navbar-brand{font-family:'Inter',sans-serif;font-weight:700;font-size:22px;letter-spacing:1px;}
+  .nav-link{font-weight:500;font-size:14px;letter-spacing:0.5px;transition:all 0.3s ease;color:#8b949e!important;}
+  .nav-link:hover{color:#c9d1d9!important;}
+  .list-group-item{background:rgba(22,27,34,0.8)!important;border:1px solid rgba(48,54,61,0.6)!important;transition:all 0.2s ease;margin-bottom:2px;border-radius:6px!important;}
+  .list-group-item:hover{background:rgba(48,54,61,0.4)!important;border-color:rgba(48,54,61,0.9)!important;}
+  .alert{border-radius:8px!important;border:1px solid rgba(48,54,61,0.6)!important;}
+  .alert-dark{background:rgba(22,27,34,0.9)!important;color:#c9d1d9!important;}
+  .alert-primary{background:rgba(22,27,34,0.9)!important;color:#c9d1d9!important;border-color:rgba(48,54,61,0.6)!important;}
+  .alert-secondary{background:rgba(33,38,45,0.9)!important;color:#8b949e!important;border-color:rgba(48,54,61,0.6)!important;}
+  .badge{border-radius:6px!important;font-weight:500;background:#21262d!important;color:#8b949e!important;border:1px solid rgba(48,54,61,0.6);}
+  .badge.bg-success,.badge.bg-warning,.badge.bg-danger,.badge.bg-info,.badge.bg-primary{background:#21262d!important;color:#8b949e!important;}
+  .btn{border-radius:6px!important;font-weight:500;transition:all 0.2s ease;}
+  .btn-light{background:#21262d!important;border:1px solid rgba(48,54,61,0.8)!important;color:#c9d1d9!important;font-weight:500;}
+  .btn-light:hover{background:#30363d!important;border-color:rgba(48,54,61,1)!important;color:#f0f6fc!important;}
+  .btn-danger{background:#21262d!important;border:1px solid rgba(48,54,61,0.8)!important;color:#c9d1d9!important;font-weight:500;}
+  .btn-danger:hover{background:#30363d!important;color:#f0f6fc!important;}
+  .btn-success{background:#21262d!important;border:1px solid rgba(48,54,61,0.8)!important;color:#c9d1d9!important;}
+  .btn-success:hover{background:#30363d!important;color:#f0f6fc!important;}
+  .btn-primary{background:#21262d!important;border:1px solid rgba(48,54,61,0.8)!important;color:#c9d1d9!important;}
+  .btn-primary:hover{background:#30363d!important;color:#f0f6fc!important;}
+  .btn-secondary{background:#21262d!important;border:1px solid rgba(48,54,61,0.8)!important;color:#c9d1d9!important;}
+  .btn-secondary:hover{background:#30363d!important;color:#f0f6fc!important;}
+  .form-control{background:#0d1117!important;border:1px solid rgba(48,54,61,0.8)!important;color:#c9d1d9!important;border-radius:6px!important;}
+  .form-control:focus{border-color:#388bfd!important;box-shadow:0 0 0 2px rgba(56,139,253,0.15)!important;}
+  .footer{background:#161b22!important;border-top:1px solid rgba(48,54,61,0.8);}
+  .footer p,.footer a{color:#8b949e!important;font-size:13px;}
+  .footer a:hover{color:#c9d1d9!important;}
+  .breadcrumb-item a{color:#58a6ff!important;text-decoration:none;}
+  .breadcrumb-item a:hover{color:#79c0ff!important;}
+  .breadcrumb{margin-bottom:0;}
+  .modal-content{background:#161b22!important;border:1px solid rgba(48,54,61,0.8)!important;}
+  .modal-header{border-bottom:1px solid rgba(48,54,61,0.6)!important;}
+  .modal-footer{border-top:1px solid rgba(48,54,61,0.6)!important;}
+  .dropdown-menu{background:#161b22!important;border:1px solid rgba(48,54,61,0.8)!important;}
+  .dropdown-item{color:#c9d1d9!important;}
+  .dropdown-item:hover{background:#21262d!important;color:#f0f6fc!important;}
+  ::-webkit-scrollbar{width:8px;}
+  ::-webkit-scrollbar-track{background:#0d1117;}
+  ::-webkit-scrollbar-thumb{background:#30363d;border-radius:4px;}
+  ::-webkit-scrollbar-thumb:hover{background:#484f58;}
+  .container{max-width:1100px;}
+  .footer-text{font-family:'Inter',sans-serif;font-size:13px;}
+  .logo_new{font-family:'Inter',sans-serif;font-weight:700;font-size:50px;color:white;}
+  .loading{position:fixed;z-index:999;height:2em;width:2em;overflow:show;margin:auto;top:0;left:0;bottom:0;right:0;}.loading:before{content:'';display:block;position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(rgba(13,17,23,.95),rgba(0,0,0,.95));}.loading:not(:required){font:0/0 a;color:transparent;text-shadow:none;background-color:transparent;border:0;}.loading:not(:required):after{content:'';display:block;font-size:10px;width:1em;height:1em;margin-top:-0.5em;animation:spinner 150ms infinite linear;border-radius:0.5em;box-shadow:rgba(201,209,217,0.75) 1.5em 0 0 0,rgba(201,209,217,0.75) 1.1em 1.1em 0 0,rgba(201,209,217,0.75) 0 1.5em 0 0,rgba(201,209,217,0.75) -1.1em 1.1em 0 0,rgba(201,209,217,0.75) -1.5em 0 0 0,rgba(201,209,217,0.75) -1.1em -1.1em 0 0,rgba(201,209,217,0.75) 0 -1.5em 0 0,rgba(201,209,217,0.75) 1.1em -1.1em 0 0;}@keyframes spinner{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+  </style>
   <script>
   window.drive_names = JSON.parse('${JSON.stringify(authConfig.roots.map(it => it.name))}');
   window.MODEL = JSON.parse('${JSON.stringify(model)}');
@@ -175,15 +225,48 @@ const homepage = `<!DOCTYPE html>
       window.UI = JSON.parse('${JSON.stringify(uiConfig)}');
     </script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.0.0/dist/${uiConfig.theme}/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-    <style>a{color:${uiConfig.css_a_tag_color};}p{color:${uiConfig.css_p_tag_color};}</style>
+    <style>
+     *{font-family:'Inter',sans-serif;}
+     body{background:#0d1117;min-height:100vh;}
+     .navbar{backdrop-filter:blur(12px);background:rgba(22,27,34,0.95)!important;border-bottom:1px solid rgba(48,54,61,0.8);box-shadow:0 1px 3px rgba(0,0,0,0.3);}
+     .navbar-brand{font-family:'Inter',sans-serif;font-weight:700;font-size:22px;letter-spacing:1px;}
+     .nav-link{font-weight:500;font-size:14px;color:#8b949e!important;}
+     .nav-link:hover{color:#c9d1d9!important;}
+     .list-group-item{background:rgba(22,27,34,0.8)!important;border:1px solid rgba(48,54,61,0.6)!important;transition:all 0.2s ease;margin-bottom:2px;border-radius:6px!important;}
+     .list-group-item:hover{background:rgba(48,54,61,0.4)!important;border-color:rgba(48,54,61,0.9)!important;}
+     .alert{border-radius:8px!important;border:1px solid rgba(48,54,61,0.6)!important;}
+     .alert-dark,.alert-primary{background:rgba(22,27,34,0.9)!important;color:#c9d1d9!important;border-color:rgba(48,54,61,0.6)!important;}
+     .alert-secondary{background:rgba(33,38,45,0.9)!important;color:#8b949e!important;}
+     .badge{border-radius:6px!important;font-weight:500;background:#21262d!important;color:#8b949e!important;border:1px solid rgba(48,54,61,0.6);}
+     .badge.bg-success,.badge.bg-warning,.badge.bg-danger,.badge.bg-info,.badge.bg-primary{background:#21262d!important;color:#8b949e!important;}
+     .btn{border-radius:6px!important;font-weight:500;}
+     .btn-danger,.btn-light,.btn-success,.btn-primary,.btn-secondary{background:#21262d!important;border:1px solid rgba(48,54,61,0.8)!important;color:#c9d1d9!important;}
+     .btn-danger:hover,.btn-light:hover,.btn-success:hover,.btn-primary:hover,.btn-secondary:hover{background:#30363d!important;color:#f0f6fc!important;}
+     .form-control{background:#0d1117!important;border:1px solid rgba(48,54,61,0.8)!important;color:#c9d1d9!important;border-radius:6px!important;}
+     .form-control:focus{border-color:#388bfd!important;box-shadow:0 0 0 2px rgba(56,139,253,0.15)!important;}
+     .footer{background:#161b22!important;border-top:1px solid rgba(48,54,61,0.8);}
+     .footer p,.footer a{color:#8b949e!important;font-size:13px;}
+     .footer a:hover{color:#c9d1d9!important;}
+     .breadcrumb-item a{color:#58a6ff!important;text-decoration:none;}
+     .breadcrumb-item a:hover{color:#79c0ff!important;}
+     .breadcrumb{margin-bottom:0;}
+     .modal-content{background:#161b22!important;border:1px solid rgba(48,54,61,0.8)!important;}
+     .dropdown-menu{background:#161b22!important;border:1px solid rgba(48,54,61,0.8)!important;}
+     .dropdown-item{color:#c9d1d9!important;}
+     .dropdown-item:hover{background:#21262d!important;color:#f0f6fc!important;}
+     a{color:${uiConfig.css_a_tag_color};}p{color:${uiConfig.css_p_tag_color};}
+     </style>
    </head>
    <body>
     <header>
      <div id="nav">
-      <nav class="navbar navbar-expand-lg${uiConfig.fixed_header ?' fixed-top': ''} ${uiConfig.header_style_class}">
+      <nav class="navbar navbar-expand-lg${uiConfig.fixed_header ? ' fixed-top' : ''} ${uiConfig.header_style_class}">
          <div class="container-fluid">
-         <a class="navbar-brand" href="/">${uiConfig.logo_image ? '<img border="0" alt="'+uiConfig.company_name+'" src="'+uiConfig.logo_link_name+'" height="'+uiConfig.logo_height+'" width="'+uiConfig.logo_width+'">' : uiConfig.logo_link_name}</a>
+         <a class="navbar-brand" href="/">${uiConfig.logo_image ? '<img border="0" alt="' + uiConfig.company_name + '" src="' + uiConfig.logo_link_name + '" height="' + uiConfig.logo_height + '" width="' + uiConfig.logo_width + '">' : uiConfig.logo_link_name}</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
           </button>
@@ -198,11 +281,11 @@ const homepage = `<!DOCTYPE html>
             <li class="nav-item">
                <a class="nav-link" href="${uiConfig.contact_link}" target="_blank">${uiConfig.nav_link_4}</a>
             </li>
-            ${uiConfig.show_logout_button ?'<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>': ''}
+            ${uiConfig.show_logout_button ? '<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>' : ''}
            </ul>
            <form class="d-flex" method="get" action="/0:search">
             <input class="form-control me-2" name="q" type="search" placeholder="Search" aria-label="Search" value="" required="">
-            <button class="btn btn btn-danger" onclick="if($('#search_bar_form>input').val()) $('#search_bar_form').submit();" type="submit">Search</button>
+            <button class="${uiConfig.search_button_class}" onclick="if($('#search_bar_form>input').val()) $('#search_bar_form').submit();" type="submit">Search</button>
            </form>
           </div>
          </div>
@@ -212,7 +295,7 @@ const homepage = `<!DOCTYPE html>
     <div>
      <div id="content" style="padding-top: ${uiConfig.header_padding}px;">
       <div class="container">
-         <div class="alert alert-primary d-flex align-items-center" role="alert" style="margin-bottom: 0; padding-bottom: 0rem;">
+         <div class="${uiConfig.path_nav_alert_class} d-flex align-items-center" role="alert" style="margin-bottom: 0; padding-bottom: 0rem;">
           <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
            <ol class="breadcrumb" id="folderne">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
@@ -242,7 +325,7 @@ const homepage = `<!DOCTYPE html>
       </div>
      </div>
      <br>
-     <footer class="footer mt-auto py-3 text-muted ${uiConfig.footer_style_class}" style="${uiConfig.fixed_footer ?'position: fixed; ': ''}left: 0; bottom: 0; width: 100%; color: white; z-index: 9999;${uiConfig.hide_footer ? ' display:none;': ' display:block;'}"> <div class="container" style="width: auto; padding: 0 10px;"> <p class="float-end"> <a href="#">Back to top</a> </p> ${uiConfig.credit ? '<p>Redesigned with <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart-fill" fill="red" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" /> </svg> by <a href="https://www.npmjs.com/package/@googledrive/index" target="_blank">TheFirstSpeedster</a>, based on Open Source Softwares.</p>' : ''} <p>© ${uiConfig.copyright_year} - <a href=" ${uiConfig.company_link}" target="_blank"> ${uiConfig.company_name}</a>, All Rights Reserved.</p> </div> </footer>
+     <footer class="footer mt-auto py-3 text-muted ${uiConfig.footer_style_class}" style="${uiConfig.fixed_footer ? 'position: fixed; ' : ''}left: 0; bottom: 0; width: 100%; color: white; z-index: 9999;${uiConfig.hide_footer ? ' display:none;' : ' display:block;'}"> <div class="container" style="width: auto; padding: 0 10px;"> <p class="float-end"> <a href="#">Back to top</a> </p> ${uiConfig.credit ? '<p>Redesigned with <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart-fill" fill="red" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" /> </svg> by <a href="https://www.npmjs.com/package/@googledrive/index" target="_blank">Xalbien</a>, based on Open Source Softwares.</p>' : ''} <p>© ${uiConfig.copyright_year} - <a href=" ${uiConfig.company_link}" target="_blank"> ${uiConfig.company_name}</a>, All Rights Reserved.</p> </div> </footer>
     </div>
    </body>
   <script src="${uiConfig.jsdelivr_cdn_src}@${uiConfig.version}/assets/homepage.min.js"></script>
@@ -328,7 +411,7 @@ const login_html = `<html>
                </form>
                <hr class="solid">
                ${authConfig.enable_social_login ? `<div id="allsociallogins" style="display:block;">
-              <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=`+authConfig.google_client_id_for_login+`&redirect_uri=`+authConfig.redirect_domain+`/google_callback&response_type=code&scope=email%20profile&response_mode=query" id="btn-google" class="btn btn-block btn-social btn-google"><span class="fa fa-google"></span> Sign in with Google</a>
+              <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=`+ authConfig.google_client_id_for_login + `&redirect_uri=` + authConfig.redirect_domain + `/google_callback&response_type=code&scope=email%20profile&response_mode=query" id="btn-google" class="btn btn-block btn-social btn-google"><span class="fa fa-google"></span> Sign in with Google</a>
                </div>` : ''}
             </div>
            </div>
@@ -425,7 +508,7 @@ const signup_html = `<html>
                </form>
                <hr class="solid">
                ${authConfig.enable_social_login ? `<div id="allsociallogins" style="display:block;">
-              <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=`+authConfig.google_client_id_for_login+`&redirect_uri=`+authConfig.redirect_domain+`/google_callback&response_type=code&scope=email%20profile&response_mode=query" id="btn-google" class="btn btn-block btn-social btn-google"><span class="fa fa-google"></span> Sign in with Google</a>
+              <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=`+ authConfig.google_client_id_for_login + `&redirect_uri=` + authConfig.redirect_domain + `/google_callback&response_type=code&scope=email%20profile&response_mode=query" id="btn-google" class="btn btn-block btn-social btn-google"><span class="fa fa-google"></span> Sign in with Google</a>
                </div>` : ''}
             </div>
            </div>
@@ -551,7 +634,7 @@ const directlink = `
   `;
 
 const SearchFunction = {
-  formatSearchKeyword: function(keyword) {
+  formatSearchKeyword: function (keyword) {
     const nothing = "";
     const space = " ";
     if (!keyword) return nothing;
@@ -562,7 +645,7 @@ const SearchFunction = {
 
 };
 
-const DriveFixedTerms = new(class {
+const DriveFixedTerms = new (class {
   default_file_fields = 'parents,id,name,mimeType,modifiedTime,createdTime,fileExtension,size';
   gd_root_type = {
     user_drive: 0,
@@ -577,18 +660,18 @@ const JSONWebToken = {
     alg: 'RS256',
     typ: 'JWT'
   },
-  importKey: async function(pemKey) {
+  importKey: async function (pemKey) {
     const pemDER = this.textUtils.base64ToArrayBuffer(pemKey.split('\n').map(s => s.trim()).filter(l => l.length && !l.startsWith('---')).join(''));
     return crypto.subtle.importKey('pkcs8', pemDER, {
       name: 'RSASSA-PKCS1-v1_5',
       hash: 'SHA-256'
     }, false, ['sign']);
   },
-  createSignature: async function(text, key) {
+  createSignature: async function (text, key) {
     const textBuffer = this.textUtils.stringToArrayBuffer(text);
     return crypto.subtle.sign('RSASSA-PKCS1-v1_5', key, textBuffer);
   },
-  generateGCPToken: async function(serviceAccount) {
+  generateGCPToken: async function (serviceAccount) {
     const iat = parseInt(Date.now() / 1000);
     const payload = {
       "iss": serviceAccount.client_email,
@@ -604,7 +687,7 @@ const JSONWebToken = {
     return encHeader + "." + encPayload + "." + this.textUtils.arrayBufferToBase64(signed).replace(/\//g, '_').replace(/\+/g, '-');
   },
   textUtils: {
-    base64ToArrayBuffer: function(base64) {
+    base64ToArrayBuffer: function (base64) {
       const binary_string = atob(base64);
       const len = binary_string.length;
       const bytes = new Uint8Array(len);
@@ -613,7 +696,7 @@ const JSONWebToken = {
       }
       return bytes.buffer;
     },
-    stringToArrayBuffer: function(str) {
+    stringToArrayBuffer: function (str) {
       const len = str.length;
       const bytes = new Uint8Array(len);
       for (let i = 0; i < len; i++) {
@@ -621,7 +704,7 @@ const JSONWebToken = {
       }
       return bytes.buffer;
     },
-    arrayBufferToBase64: function(buffer) {
+    arrayBufferToBase64: function (buffer) {
       let binary = '';
       const bytes = new Uint8Array(buffer);
       const len = bytes.byteLength;
@@ -644,9 +727,9 @@ async function encryptString(string, iv) {
   );
   const encodedId = new TextEncoder().encode(string);
   const encryptedData = await crypto.subtle.encrypt({
-      name: "AES-CBC",
-      iv: encrypt_iv
-    },
+    name: "AES-CBC",
+    iv: encrypt_iv
+  },
     key,
     encodedId
   );
@@ -664,9 +747,9 @@ async function decryptString(encryptedString) {
   );
   const encryptedBytes = Uint8Array.from(atob(encryptedString), (char) => char.charCodeAt(0));
   const decryptedData = await crypto.subtle.decrypt({
-      name: "AES-CBC",
-      iv: encrypt_iv
-    },
+    name: "AES-CBC",
+    iv: encrypt_iv
+  },
     key,
     encryptedBytes
   );
@@ -679,13 +762,13 @@ async function genIntegrity(data, key = hmac_base_key) {
   const encoder = new TextEncoder();
   const dataBuffer = encoder.encode(data);
   const hmacKey = await crypto.subtle.importKey(
-      'raw',
-      encoder.encode(key), {
-          name: 'HMAC',
-          hash: 'SHA-256'
-      },
-      false,
-      ['sign']
+    'raw',
+    encoder.encode(key), {
+    name: 'HMAC',
+    hash: 'SHA-256'
+  },
+    false,
+    ['sign']
   );
   const hmacBuffer = await crypto.subtle.sign('HMAC', hmacKey, dataBuffer);
 
@@ -1364,9 +1447,9 @@ async function fetchAccessToken() {
 }
 
 async function sleep(ms) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     let i = 0;
-    setTimeout(function() {
+    setTimeout(function () {
       console.log('sleep' + ms);
       i++;
       if (i >= 2) reject(new Error('i>=2'));
@@ -1446,15 +1529,15 @@ async function apiRequest(request, gd, user_ip) {
 
 
     const encryptedFiles = list_result;
-	const data = JSON.stringify(encryptedFiles);
+    const data = JSON.stringify(encryptedFiles);
     return new Response(data, {
-		status: 200,
-		headers: {
-			'Access-Control-Allow-Origin': '*',
-			'Content-Type': 'application/json;charset=UTF-8'
+      status: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json;charset=UTF-8'
 
-		}
-	});
+      }
+    });
   } else {
     const file_json = await gd.get_single_file(path);
     const {
@@ -1475,15 +1558,15 @@ async function apiRequest(request, gd, user_ip) {
 
     const encryptedFiles = encryptedFile;
 
-	const data = JSON.stringify(encryptedFiles);
+    const data = JSON.stringify(encryptedFiles);
     return new Response(data, {
-		status: 200,
-		headers: {
-			'Access-Control-Allow-Origin': '*',
-			'Content-Type': 'application/json;charset=UTF-8'
+      status: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json;charset=UTF-8'
 
-		}
-	});
+      }
+    });
   }
 }
 
@@ -1558,22 +1641,22 @@ async function handleId2Path(request, gd) {
 }
 
 async function findId2Path(gd, url) {
-	try {
-		const [path, prefix] = await gd.findPathById(url.searchParams.get('id'));
-		console.log(path, prefix);
-		if (!path) {
-			return new Response("Invalid URL");
-		} else if (url.searchParams.get('view') && url.searchParams.get('view') == 'true') {
-			//return new Response("https://" + url.hostname + "/" + prefix + ":" + path + "?a=view" || '');
-			return Response.redirect("https://" + url.hostname + "/" + prefix + ":" + path + "?a=view" || '', 302);
-		} else {
-			//return new Response("https://" + url.hostname + "/" + prefix + ":" + path + "?a=view" || '');
-			return Response.redirect("https://" + url.hostname + "/" + prefix + ":" + path || '', 302);
-		}
-	} catch (error) {
-		const encrypted_id = await encryptString(url.searchParams.get('id'), encrypt_iv);
-		return Response.redirect("https://" + url.hostname + "/fallback?id=" + encrypted_id || '', 302);
-	}
+  try {
+    const [path, prefix] = await gd.findPathById(url.searchParams.get('id'));
+    console.log(path, prefix);
+    if (!path) {
+      return new Response("Invalid URL");
+    } else if (url.searchParams.get('view') && url.searchParams.get('view') == 'true') {
+      //return new Response("https://" + url.hostname + "/" + prefix + ":" + path + "?a=view" || '');
+      return Response.redirect("https://" + url.hostname + "/" + prefix + ":" + path + "?a=view" || '', 302);
+    } else {
+      //return new Response("https://" + url.hostname + "/" + prefix + ":" + path + "?a=view" || '');
+      return Response.redirect("https://" + url.hostname + "/" + prefix + ":" + path || '', 302);
+    }
+  } catch (error) {
+    const encrypted_id = await encryptString(url.searchParams.get('id'), encrypt_iv);
+    return Response.redirect("https://" + url.hostname + "/fallback?id=" + encrypted_id || '', 302);
+  }
 }
 
 /*async function findItemById(gd, id) {
@@ -2094,7 +2177,7 @@ async function download(id, range = '', inline) {
 }
 
 
-String.prototype.trim = function(char) {
+String.prototype.trim = function (char) {
   if (char) {
     return this.replace(new RegExp('^\\' + char + '+|\\' + char + '+$', 'g'), '');
   }
@@ -2105,7 +2188,7 @@ String.prototype.trim = function(char) {
 function decodeJwtToken(token) {
   const base64Url = token.split('.')[1];
   const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+  const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
     return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
   }).join(''));
 

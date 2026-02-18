@@ -288,10 +288,10 @@ const homepage = `<!DOCTYPE html>
     <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.0.0/dist/${uiConfig.theme}/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <style>
      *{font-family:'Inter',sans-serif;}
-     body{background:#0d1117!important;min-height:100vh;color:#c9d1d9!important;}
-     .bg-dark{background:rgba(22,27,34,0.97)!important;}
-     .bg-primary{background:rgba(22,27,34,0.97)!important;}
-     .bg-light{background:rgba(22,27,34,0.97)!important;}
+     body{background:#0d1117!important;background-color:#0d1117!important;min-height:100vh;color:#c9d1d9!important;}
+     .bg-dark,.bg-primary,.bg-light{background:rgba(22,27,34,0.97)!important;background-color:rgba(22,27,34,0.97)!important;}
+     .navbar.bg-dark,.navbar.bg-primary,.navbar.bg-light{background:rgba(22,27,34,0.97)!important;background-color:rgba(22,27,34,0.97)!important;}
+     .footer.bg-dark,.footer.bg-primary,.footer.bg-light{background:rgba(22,27,34,0.98)!important;background-color:rgba(22,27,34,0.98)!important;}
      .navbar{backdrop-filter:blur(16px);background:rgba(22,27,34,0.97)!important;border-bottom:none!important;box-shadow:0 2px 12px rgba(0,0,0,0.4);position:relative;}
      .navbar::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(88,166,255,0.3),rgba(56,139,253,0.6),rgba(88,166,255,0.3),transparent);pointer-events:none;z-index:9999;}
      .navbar-brand{font-family:'Inter',sans-serif;font-weight:700;font-size:22px;letter-spacing:1px;}

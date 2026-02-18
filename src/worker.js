@@ -67,7 +67,7 @@ const uiConfig = {
   "logo_image": true, // true if you're using image link in next option.
   "logo_height": "", // only if logo_image is true
   "logo_width": "100px", // only if logo_image is true
-  "favicon": "https://cdn.jsdelivr.net/gl/orionwalter40/gdrive-index@2.2.3/images/favicon.ico",
+  "favicon": "https://cdn.jsdelivr.net/gh/orionwalter40/customdrindex@2.2.3/images/favicon.ico",
   // if logo is true then link otherwise just text for name
   "logo_link_name": "https://i.ibb.co.com/8njKvP54/restoration-image-20260216-132020.png",
   "login_image": "https://i.imgur.com/5fHELJr.png", // Login page logo image
@@ -100,9 +100,9 @@ const uiConfig = {
   "disable_video_download": false, // Remove Download, Copy Button on Videos
   "allow_selecting_files": true, // Disable Selecting Files to Download in Bulk
   "second_domain_for_dl": false, // If you want to display other URL for Downloading to protect your main domain.
-  "poster": "https://cdn.jsdelivr.net/gl/orionwalter40/gdrive-index@2.2.3/images/poster.jpg", // Video poster URL or see Readme to how to load from Drive
-  "audioposter": "https://cdn.jsdelivr.net/gl/orionwalter40/gdrive-index@2.2.3/images/music.jpg", // Video poster URL or see Readme to how to load from Drive
-  "jsdelivr_cdn_src": "https://cdn.jsdelivr.net/gl/orionwalter40/gdrive-index", // If Project is Forked, then enter your GitHub repo
+  "poster": "https://cdn.jsdelivr.net/gh/orionwalter40/customdrindex@2.2.3/images/poster.jpg", // Video poster URL or see Readme to how to load from Drive
+  "audioposter": "https://cdn.jsdelivr.net/gh/orionwalter40/customdrindex@2.2.3/images/music.jpg", // Video poster URL or see Readme to how to load from Drive
+  "jsdelivr_cdn_src": "https://cdn.jsdelivr.net/gh/orionwalter40/customdrindex", // If Project is Forked, then enter your GitHub repo
   "render_head_md": true, // Render Head.md
   "render_readme_md": true, // Render Readme.md
   "unauthorized_owner_link": "https://telegram.dog/Telegram", // Unauthorized Error Page Link to Owner

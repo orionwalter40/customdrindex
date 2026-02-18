@@ -55,7 +55,7 @@ function generateBreadcrumb(path, isViewPage = true) {
     const pathParts = path.split('/');
     let navigation = '';
     let newPath = '';
-    
+
     for (let i = 0; i < pathParts.length; i++) {
         let part = pathParts[i];
         if (isViewPage && i === pathParts.length - 1) {
@@ -63,19 +63,19 @@ function generateBreadcrumb(path, isViewPage = true) {
         } else {
             newPath += part + '/';
         }
-        
+
         if (part.length > 15) {
             part = decodeURIComponent(part);
             part = part.substring(0, 10) + '...';
         }
-        
+
         if (part === '') {
             part = 'Home';
         }
-        
+
         navigation += '<a href="' + newPath + '" class="breadcrumb-item">' + part + '</a>';
     }
-    
+
     return navigation;
 }
 
@@ -88,7 +88,7 @@ function generateBreadcrumb(path, isViewPage = true) {
  */
 function generateDownloadDropdown(url, encodedName, isVideo = false) {
     let dropdown = '';
-    
+
     if (isVideo) {
         dropdown += `
             <a class="dropdown-item" href="iina://weblink?url=${url}">IINA</a>
@@ -101,12 +101,12 @@ function generateDownloadDropdown(url, encodedName, isVideo = false) {
             <a class="dropdown-item" href="intent:${url}#Intent;package=com.mxtech.videoplayer.ad;S.title=${encodedName};end">MX Player (Free)</a>
             <a class="dropdown-item" href="intent:${url}#Intent;package=com.mxtech.videoplayer.pro;S.title=${encodedName};end">MX Player (Pro)</a>`;
     }
-    
+
     dropdown += `
         <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager/idm.internet.download.manager.Downloader;S.title=${encodedName};end">1DM (Free)</a>
         <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.adm.lite/idm.internet.download.manager.Downloader;S.title=${encodedName};end">1DM (Lite)</a>
         <a class="dropdown-item" href="intent:${url}#Intent;component=idm.internet.download.manager.plus/idm.internet.download.manager.Downloader;S.title=${encodedName};end">1DM+ (Plus)</a>`;
-    
+
     return dropdown;
 }
 
@@ -117,7 +117,7 @@ function generateDownloadDropdown(url, encodedName, isVideo = false) {
  */
 function createFileViewContainer(options) {
     const { name, size, url, encodedName, navigation, bodyContent = '', isVideo = false, showDownload = true } = options;
-    
+
     const downloadSection = showDownload ? `
         <div class="card-body">
             <div class="input-group mb-4">
@@ -136,7 +136,7 @@ function createFileViewContainer(options) {
             </div>
             <br>
         </div>` : '';
-    
+
     return `
         <div class="container text-center"><br>
             <nav aria-label="breadcrumb">
@@ -165,7 +165,7 @@ function init() {
 </header>
 <div class="loading" id="spinner" style="display:none;">Loading&#8230;</div>
 <div>
-<div id="content" style="padding-top: ${UI.header_padding}px;${UI.fixed_footer ?' padding-bottom: clamp(170px, 100%, 300px);': ''}">
+<div id="content" style="padding-top: ${UI.header_padding}px;${UI.fixed_footer ? ' padding-bottom: clamp(170px, 100%, 300px);' : ''}">
 </div>
 <div class="modal fade" id="SearchModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="SearchModelLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -184,7 +184,7 @@ function init() {
   </div>
 </div>
 <br>
-<footer class="footer mt-auto py-3 text-muted ${UI.footer_style_class}" style="${UI.fixed_footer ?'position: fixed; ': ''}left: 0; bottom: 0; width: 100%; color: white; z-index: 9999;${UI.hide_footer ? ' display:none;': ' display:block;'}"> <div class="container" style="width: auto; padding: 0 10px;"> <p class="float-end"> <a href="#">Back to top</a> </p> ${UI.credit ? '<p>Redesigned with <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart-fill" fill="red" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" /> </svg> by <a href="https://www.npmjs.com/package/@googledrive/index" target="_blank">Xalbien</a>, based on Open Source Softwares.</p>' : ''} <p>© ${UI.copyright_year} - <a href=" ${UI.company_link}" target="_blank"> ${UI.company_name}</a>, All Rights Reserved.</p> </div> </footer>
+<footer class="footer mt-auto py-3 text-muted ${UI.footer_style_class}" style="${UI.fixed_footer ? 'position: fixed; ' : ''}left: 0; bottom: 0; width: 100%; color: white; z-index: 9999;${UI.hide_footer ? ' display:none;' : ' display:block;'}"> <div class="container" style="width: auto; padding: 0 10px;"> <p class="float-end"> <a href="#">Back to top</a> </p> ${UI.credit ? '<p>Redesigned with <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart-fill" fill="red" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" /> </svg> by <a href="https://www.npmjs.com/package/@googledrive/index" target="_blank">Xalbien</a>, based on Open Source Softwares.</p>' : ''} <p>© ${UI.copyright_year} - <a href=" ${UI.company_link}" target="_blank"> ${UI.company_name}</a>, All Rights Reserved.</p> </div> </footer>
   `;
     $('body').html(html);
 }
@@ -297,9 +297,9 @@ function nav(path) {
     const model = window.MODEL;
     let html = "";
     const cur = window.current_drive_order || 0;
-    html += `<nav class="navbar navbar-expand-lg${UI.fixed_header ?' fixed-top': ''} ${UI.header_style_class}">
+    html += `<nav class="navbar navbar-expand-lg${UI.fixed_header ? ' fixed-top' : ''} ${UI.header_style_class}">
     <div class="container-fluid">
-  <a class="navbar-brand" href="/">${UI.logo_image ? '<img border="0" alt="'+UI.company_name+'" src="'+UI.logo_link_name+'" height="'+UI.logo_height+'" width="'+UI.logo_width+'">' : UI.logo_link_name}</a>
+  <a class="navbar-brand" href="/">${UI.logo_image ? '<img border="0" alt="' + UI.company_name + '" src="' + UI.logo_link_name + '" height="' + UI.logo_height + '" width="' + UI.logo_width + '">' : UI.logo_link_name}</a>
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -321,7 +321,7 @@ function nav(path) {
 
     html += `<li class="nav-item">
     <a class="nav-link" href="${UI.contact_link}" target="_blank">${UI.nav_link_4}</a>
-  </li>${UI.show_logout_button ?'<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>': ''}`;
+  </li>${UI.show_logout_button ? '<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>' : ''}`;
 
     const search_text = model.is_search_page ? (model.q || '') : '';
     const search_bar = `
@@ -376,19 +376,19 @@ function requestListPath(path, params, resultCallback, authErrorCallback, retrie
 
     function performRequest() {
         fetch(fallback ? "/0:fallback" : path, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(requestData)
-            })
-            .then(function(response) {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        })
+            .then(function (response) {
                 if (!response.ok) {
                     throw new Error('Request failed');
                 }
                 return response.json();
             })
-            .then(function(res) {
+            .then(function (res) {
                 if (res && res.error && res.error.code === 401) {
                     // Password verification failed
                     askPassword(path);
@@ -401,7 +401,7 @@ function requestListPath(path, params, resultCallback, authErrorCallback, retrie
                     $('#update').hide();
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 if (retries > 0) {
                     sleep(2000);
                     document.getElementById('update').innerHTML = `<div class='alert alert-info' role='alert'> Retrying...</div></div></div>`;
@@ -434,19 +434,19 @@ function requestSearch(params, resultCallback, retries = 3) {
 
     function performRequest(retries) {
         fetch(`/${window.current_drive_order}:search`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(p)
-            })
-            .then(function(response) {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(p)
+        })
+            .then(function (response) {
                 if (!response.ok) {
                     throw new Error('Request failed');
                 }
                 return response.json();
             })
-            .then(function(res) {
+            .then(function (res) {
                 if (res && res.data === null) {
                     $('#spinner').remove();
                     $('#list').html(`<div class='alert alert-danger' role='alert'> Server didn't send any data.</div></div></div>`);
@@ -457,7 +457,7 @@ function requestSearch(params, resultCallback, retries = 3) {
                     $('#update').remove();
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 if (retries > 0) {
                     sleep(2000);
                     $('#update').html(`<div class='alert alert-info' role='alert'> Retrying...</div></div></div>`);
@@ -478,7 +478,7 @@ function requestSearch(params, resultCallback, retries = 3) {
 // Render file list
 function list(path, id = '', fallback = false) {
     console.log(id);
-    let containerContent = `<div class="container">${UI.fixed_header ?'<br>': ''}
+    let containerContent = `<div class="container">${UI.fixed_header ? '<br>' : ''}
     <div id="update"></div>
     <div id="head_md" style="display:none; padding: 20px 20px;"></div>
     <div class="container" id="select_items" style="padding: 0px 50px 10px; display:none;">
@@ -558,7 +558,7 @@ function list(path, id = '', fallback = false) {
                 append_files_to_list(path, res['data']['files']);
             }
             if (window.scroll_status.event_bound !== true) {
-                $(window).on('scroll', function() {
+                $(window).on('scroll', function () {
                     const scrollTop = $(this).scrollTop();
                     const scrollHeight = getDocumentHeight();
                     const windowHeight = $(this).height();
@@ -577,19 +577,19 @@ function list(path, id = '', fallback = false) {
                         if (fallback) {
                             console.log('fallback inside handleSuccessResult');
                             requestListPath(path, {
-                                    id: id,
-                                    password: prevReqParams['password'],
-                                    page_token: $list.data('nextPageToken'),
-                                    page_index: $list.data('curPageIndex') + 1
-                                },
+                                id: id,
+                                password: prevReqParams['password'],
+                                page_token: $list.data('nextPageToken'),
+                                page_index: $list.data('curPageIndex') + 1
+                            },
                                 handleSuccessResult,
                                 null, 5, id, fallback = true);
                         } else {
                             requestListPath(path, {
-                                    password: prevReqParams['password'],
-                                    page_token: $list.data('nextPageToken'),
-                                    page_index: $list.data('curPageIndex') + 1
-                                },
+                                password: prevReqParams['password'],
+                                page_token: $list.data('nextPageToken'),
+                                page_index: $list.data('curPageIndex') + 1
+                            },
                                 handleSuccessResult,
                                 null);
                         }
@@ -608,16 +608,16 @@ function list(path, id = '', fallback = false) {
     if (fallback) {
         console.log('fallback inside list');
         requestListPath(path, {
-                id: id,
-                password: password
-            },
+            id: id,
+            password: password
+        },
             handleSuccessResult,
             null, null, fallback = true);
     } else {
         console.log("handling this");
         requestListPath(path, {
-                password: password
-            },
+            password: password
+        },
             handleSuccessResult,
             null);
     }
@@ -715,13 +715,13 @@ function append_files_to_fallback_list(path, files) {
                 let c = "file";
                 // README is displayed after the last page is loaded, otherwise it will affect the scroll event
                 if (is_lastpage_loaded && item.name == "README.md" && UI.render_readme_md) {
-                    get_file(p, item, function(data) {
+                    get_file(p, item, function (data) {
                         markdown("#readme_md", data);
                         $("img").addClass("img-fluid");
                     });
                 }
                 if (item.name == "HEAD.md" && UI.render_head_md) {
-                    get_file(p, item, function(data) {
+                    get_file(p, item, function (data) {
                         markdown("#head_md", data);
                         $("img").addClass("img-fluid");
                     });
@@ -732,7 +732,7 @@ function append_files_to_fallback_list(path, files) {
                 pn += "?a=view";
                 c += " view";
                 //}
-                html += `<div class="list-group-item list-group-item-action">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}`;
+                html += `<div class="list-group-item list-group-item-action">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="' + link + '" id="flexCheckDefault">' : ''}`;
 
                 // Use centralized getFileIcon helper
                 html += getFileIcon(ext);
@@ -841,13 +841,13 @@ function append_files_to_list(path, files) {
             let c = "file";
             // README is displayed after the last page is loaded, otherwise it will affect the scroll event
             if (is_lastpage_loaded && item.name == "README.md" && UI.render_readme_md) {
-                get_file(p, item, function(data) {
+                get_file(p, item, function (data) {
                     markdown("#readme_md", data);
                     $("img").addClass("img-fluid");
                 });
             }
             if (item.name == "HEAD.md" && UI.render_head_md) {
-                get_file(p, item, function(data) {
+                get_file(p, item, function (data) {
                     markdown("#head_md", data);
                     $("img").addClass("img-fluid");
                 });
@@ -859,7 +859,7 @@ function append_files_to_list(path, files) {
             pn += "?a=view";
             c += " view";
             //}
-            html += `<div class="list-group-item list-group-item-action">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}`;
+            html += `<div class="list-group-item list-group-item-action">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="' + link + '" id="flexCheckDefault">' : ''}`;
 
             // Use centralized getFileIcon helper
             html += getFileIcon(ext);
@@ -990,7 +990,7 @@ function render_search_result_list() {
             append_search_result_to_list(res['data']['files']);
             if (window.scroll_status.event_bound !== true) {
                 // Bind event, if not yet bound
-                $(window).on('scroll', function() {
+                $(window).on('scroll', function () {
                     const scrollTop = $(this).scrollTop();
                     const scrollHeight = getDocumentHeight();
                     const windowHeight = $(this).height();
@@ -1011,11 +1011,11 @@ function render_search_result_list() {
 
                         const $list = $('#list');
                         requestSearch({
-                                q: window.MODEL.q,
-                                page_token: $list.data('nextPageToken'),
-                                // Request next page
-                                page_index: $list.data('curPageIndex') + 1
-                            },
+                            q: window.MODEL.q,
+                            page_token: $list.data('nextPageToken'),
+                            // Request next page
+                            page_index: $list.data('curPageIndex') + 1
+                        },
                             searchSuccessCallback
                         );
                     }
@@ -1110,7 +1110,7 @@ function append_search_result_to_list(files) {
                 item['size'] = formatFileSize(item['size']);
                 const ext = item.fileExtension;
                 const link = UI.second_domain_for_dl ? UI.downloaddomain + item.link : window.location.origin + item.link;
-                html += `<div style="color: ${UI.css_a_tag_color};" gd-type="$item['mimeType']}" class="countitems size_items list-group-item list-group-item-action">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="'+link+'" id="flexCheckDefault">' : ''}`;
+                html += `<div style="color: ${UI.css_a_tag_color};" gd-type="$item['mimeType']}" class="countitems size_items list-group-item list-group-item-action">${UI.allow_selecting_files ? '<input class="form-check-input" style="margin-top: 0.3em;margin-right: 0.5em;" type="checkbox" value="' + link + '" id="flexCheckDefault">' : ''}`;
 
                 // Use centralized getFileIcon helper
                 html += getFileIcon(ext);
@@ -1164,20 +1164,20 @@ function onSearchResultItemClick(file_id, can_preview) {
     };
     // Request a path
     fetch(`/${cur}:id2path`, {
-            method: 'POST',
-            body: JSON.stringify(p),
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        })
-        .then(function(response) {
+        method: 'POST',
+        body: JSON.stringify(p),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    })
+        .then(function (response) {
             if (response.ok) {
                 return response.json();
             } else {
                 throw new Error('Request failed.');
             }
         })
-        .then(function(obj) {
+        .then(function (obj) {
             const href = `${obj.path}`;
             const encodedUrl = href.replace(new RegExp('#', 'g'), '%23').replace(new RegExp('\\?', 'g'), '%3F');
             title = `Result`;
@@ -1185,7 +1185,7 @@ function onSearchResultItemClick(file_id, can_preview) {
             content = `<a class="btn btn-info" href="${encodedUrl}${can_preview ? '?a=view' : ''}">Open</a> <a class="btn btn-secondary" href="${encodedUrl}${can_preview ? '?a=view' : ''}" target="_blank">Open in New Tab</a>`;
             $('#modal-body-space').html(content);
         })
-        .catch(function(error) {
+        .catch(function (error) {
             console.log(error);
             const link = "";
             title = `Fallback Method`;
@@ -1201,7 +1201,7 @@ function get_file(path, file, callback) {
     if (data != undefined) {
         return callback(data);
     } else {
-        $.get(path, function(d) {
+        $.get(path, function (d) {
             localStorage.setItem(key, d);
             callback(d);
         });
@@ -1213,21 +1213,21 @@ async function fallback(id, type) {
         const cookie_folder_id = await getCookie("root_id") || '';
         $('#content').html(`<div class="d-flex justify-content-center" style="height: 150px"><div class="spinner-border ${UI.loading_spinner_class} m-5" role="status" id="spinner"><span class="sr-only"></span></div></div>`);
         fetch("/0:fallback", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    id
-                }),
-            })
-            .then(function(response) {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                id
+            }),
+        })
+            .then(function (response) {
                 if (!response.ok) {
                     throw new Error("Request failed");
                 }
                 return response.json();
             })
-            .then(function(obj) {
+            .then(function (obj) {
                 console.log(obj);
                 const mimeType = obj.mimeType;
                 const fileExtension = obj.fileExtension;
@@ -1245,8 +1245,7 @@ async function fallback(id, type) {
                     const url = UI.second_domain_for_dl ? UI.downloaddomain + obj.link : window.location.origin + obj.link;
                     const file_id = obj.id;
                     if (mimeType.includes("video") || video.includes(fileExtension)) {
-                        const poster = obj.thumbnailLink ? obj.thumbnailLink.replace("s220", "s0") : UI.poster;
-                        file_video(name, encoded_name, size, poster, url, mimeType, file_id, cookie_folder_id);
+                        file_video(name, encoded_name, size, UI.poster, url, mimeType, file_id, cookie_folder_id);
                     } else if (mimeType.includes("audio") || audio.includes(fileExtension)) {
                         file_audio(name, encoded_name, size, url, file_id, cookie_folder_id);
                     } else if (mimeType.includes("image") || image.includes(fileExtension)) {
@@ -1260,7 +1259,7 @@ async function fallback(id, type) {
                     }
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 const content = `
           <div class="container"><br>
           <div class="card text-center">
@@ -1288,21 +1287,21 @@ async function file(path) {
     const name = path.split('/').pop();
     $('#content').html(`<div class="d-flex justify-content-center" style="height: 150px"><div class="spinner-border ${UI.loading_spinner_class} m-5" role="status" id="spinner"><span class="sr-only"></span></div></div>`);
     fetch("", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                path: path
-            }),
-        })
-        .then(function(response) {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            path: path
+        }),
+    })
+        .then(function (response) {
             if (!response.ok) {
                 throw new Error("Request failed");
             }
             return response.json();
         })
-        .then(function(obj) {
+        .then(function (obj) {
             console.log(obj);
             const mimeType = obj.mimeType;
             const fileExtension = obj.fileExtension;
@@ -1320,8 +1319,7 @@ async function file(path) {
                 const url = UI.second_domain_for_dl ? UI.downloaddomain + obj.link : window.location.origin + obj.link;
                 const file_id = obj.id;
                 if (mimeType.includes("video") || video.includes(fileExtension)) {
-                    const poster = obj.thumbnailLink ? obj.thumbnailLink.replace("s220", "s0") : UI.poster;
-                    file_video(name, encoded_name, size, poster, url, mimeType, file_id, cookie_folder_id);
+                    file_video(name, encoded_name, size, UI.poster, url, mimeType, file_id, cookie_folder_id);
                 } else if (mimeType.includes("audio") || audio.includes(fileExtension)) {
                     file_audio(name, encoded_name, size, url, file_id, cookie_folder_id);
                 } else if (mimeType.includes("image") || image.includes(fileExtension)) {
@@ -1335,7 +1333,7 @@ async function file(path) {
                 }
             }
         })
-        .catch(function(error) {
+        .catch(function (error) {
             const content = `
           <div class="container"><br>
           <div class="card text-center">
@@ -1488,7 +1486,7 @@ function file_code(name, encoded_name, size, bytes, url, ext, file_id, cookie_fo
     const spinner = '<div class="d-flex justify-content-center"><div class="spinner-border m-5" role="status"><span class="sr-only"></span></div></div>';
     $("#code_spinner").html(spinner);
     if (bytes <= 1024 * 1024 * 2) {
-        $.get(url, function(data) {
+        $.get(url, function (data) {
             $('#editor').html($('<div/>').text(data).html());
             $("#code_spinner").html("");
             let code_type = "Text";
@@ -1606,7 +1604,7 @@ function file_video(name, encoded_name, size, poster, url, mimeType, file_id, co
     // Load Video.js and initialize the player
     const videoJsScript = document.createElement('script');
     videoJsScript.src = player_js;
-    videoJsScript.onload = function() {
+    videoJsScript.onload = function () {
         // Video.js is loaded, initialize the player
         if (player_config.player == "plyr") {
             const player = new Plyr('#player');
@@ -1619,7 +1617,6 @@ function file_video(name, encoded_name, size, poster, url, mimeType, file_id, co
                 video: {
                     url: url,
                     pic: poster,
-                    thumbnails: poster,
                 },
             });
         } else if (player_config.player == "jwplayer") {
@@ -1739,7 +1736,7 @@ function file_audio(name, encoded_name, size, url, file_id, cookie_folder_id) {
     // Load Video.js and initialize the player
     const videoJsScript = document.createElement('script');
     videoJsScript.src = 'https://vjs.zencdn.net/' + UI.videojs_version + '/video.min.js';
-    videoJsScript.onload = function() {
+    videoJsScript.onload = function () {
         // Video.js is loaded, initialize the player
         const player = videojs('aplayer');
     };
@@ -1924,7 +1921,7 @@ function formatFileSize(bytes) {
 }
 
 
-String.prototype.trim = function(char) {
+String.prototype.trim = function (char) {
     if (char) {
         return this.replace(new RegExp('^\\' + char + '+|\\' + char + '+$', 'g'), '');
     }
@@ -1939,12 +1936,12 @@ function markdown(el, data) {
 }
 
 // Listen for fallback events
-window.onpopstate = function() {
+window.onpopstate = function () {
     const path = window.location.pathname;
     render(path);
 };
 
-$(function() {
+$(function () {
     init();
     const path = window.location.pathname;
     /*$("body").on("click", '.folder', function () {
@@ -1970,11 +1967,11 @@ function copyFunction() {
     copyText.setSelectionRange(0, 99999);
 
     navigator.clipboard.writeText(copyText.value)
-        .then(function() {
+        .then(function () {
             const tooltip = document.getElementById("myTooltip");
             tooltip.innerHTML = "Copied";
         })
-        .catch(function(error) {
+        .catch(function (error) {
             console.error("Failed to copy text: ", error);
         });
 }
